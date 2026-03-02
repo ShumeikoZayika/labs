@@ -18,6 +18,5 @@ int main() {
 
   cout << "A área do retângulo é: " << r.length * r.breadth << endl;
   cout << "O valor de x é: " << r.x << endl;
-  cout << "O tamanho de Rectangle em bytes é: " << sizeof(Rectangle) << endl;
   return 0;
 }
