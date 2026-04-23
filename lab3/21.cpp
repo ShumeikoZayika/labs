@@ -1,24 +1,24 @@
 #include <stdio.h>
-#include <stdlib.h> 
+int main() {
+int N=10, K=10;
+int A[10]={0};
 
-struct Array {
-    int *A;
-    int size;   
-    int length; 
-};
+int i = 0;
+int j = N - 1; 
 
-void swap(int *x, int *y) {
-    int temp = *x;
-    *x = *y;
-    *y = temp;
-}
-
-void Display(struct Array arr) {
-    printf("Elements are:\n");
-    for(int i = 0; i < arr.length; i++) {
-        printf("%d ", arr.A[i]);
+while (i < j) {
+    if (A[i] + A[j] == K) {
+        printf("%d + %d = %d\n", A[i], A[j], K);
+        
+        i++;
+        j--;
+        
+    } else if (A[i] + A[j] < K) {
+        i++; 
+    } else { 
+        j--; 
     }
-    printf("\n");
 }
 
-int main() { return 0; }
+return 0;
+}

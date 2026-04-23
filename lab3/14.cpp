@@ -1,52 +1,62 @@
-#include <stdio.h>
-#include <stdlib.h> 
+#include <iostream> 
+#include <vector>   
+#include <algorithm> 
 
-struct Array {
-    int A[20]; 
-    int size;   
+class ArrayOperations {
+private:
+    std::vector<int> data;
     int length; 
+
+public:
+    
+    ArrayOperations(int size) {
+        if (size < 0) {
+            std::cerr << "Warning: Initializing ArrayOperations with negative size. Setting to 0." << std::endl;
+            length = 0;
+        } else {
+            length = size;
+            data.resize(length); 
+        }
+    }
+
+    int Get(int index) {
+        
+        if (index >= 0 && index < length) {
+            return data[index];
+        } else {
+            std::cerr << "Error: Index " << index << " out of bounds in Get(). Array length: " << length << std::endl;
+            
+            return -1; 
+        }
+    }
+
+    void Set(int index, int x) {
+        
+        if (index >= 0 && index < length) {
+            data[index] = x;
+        } else {
+            std::cerr << "Error: Index " << index << " out of bounds in Set(). Array length: " << length << std::endl;
+            
+        }
+    }
+
+    int Max() {
+        if (length <= 0) {
+            std::cerr << "Error: Array is empty, cannot find maximum value." << std::endl;
+            
+            return -1; 
+        }
+
+        int max_val = data[0]; 
+
+        for (int i = 1; i < length; i++) {
+            if (data[i] > max_val) {
+                max_val = data[i]; 
+            }
+        }
+        return max_val;
+    }
+
 };
 
-void Display(struct Array arr) {
-    int i;
-    printf("\nElements are\n");
-    for (i = 0; i < arr.length; i++) {
-        printf("%d ", arr.A[i]);
-    }
-    printf("\n");
-}
-
-void Append(struct Array *arr, int x) {
-    if (arr->length < arr->size) {
-        arr->A[arr->length++] = x;
-    } else {
-        printf("Error: Array is full, cannot append %d\n", x);
-    }
-}
-
-int main() {
-    
-    struct Array arr = {{2,3,4,5,6}, 10, 5}; 
-
-    printf("Initial array:\n");
-    Display(arr); 
-
-    Append(&arr, 10); 
-    printf("Array after appending 10:\n");
-    Display(arr);      
-
-    Append(&arr, 20); 
-    printf("Array after appending 20:\n");
-    Display(arr);      
-
-    Append(&arr, 30); 
-    Append(&arr, 40);
-    Append(&arr, 50);
-    Append(&arr, 60);
-    Append(&arr, 70); 
-    Append(&arr, 80); 
-    printf("Array after several appends:\n");
-    Display(arr);
-
-    return 0;
-}
+int main() { return 0; }

@@ -1,106 +1,134 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 
-struct Array
-{
+struct Array {
     int A[10]; 
-    int size;  
+    int size;   
     int length; 
 };
 
-void Display(struct Array arr)
-{
+void Display(struct Array arr) {
     int i;
-    printf("\nElements are\n");
-    for(i = 0; i < arr.length; i++)
+    printf("Elements are\n");
+    for (i = 0; i < arr.length; i++) {
         printf("%d ", arr.A[i]);
-    printf("\n"); 
-}
-
-void Append(struct Array *arr, int x)
-{
-    if(arr->length < arr->size)
-        arr->A[arr->length++] = x;
-}
-
-void Insert(struct Array *arr, int index, int x)
-{
-    int i;
-    if(index >= 0 && index <= arr->length)
-    {
-        for(i = arr->length; i > index; i--)
-            arr->A[i] = arr->A[i-1];
-        arr->A[index] = x;
-        arr->length++;
     }
+    printf("\n");
 }
 
-int Delete(struct Array *arr, int index)
-{
-    int x = 0; 
-    int i;
-
-    if(index >= 0 && index < arr->length)
-    {
-        x = arr->A[index]; 
-        for(i = index; i < arr->length - 1; i++)
-            arr->A[i] = arr->A[i+1];
-        arr->length--;
-        return x;
-    }
-    return 0; 
-}
-
-void swap(int *x, int *y)
-{
+void swap(int *x, int *y) {
     int temp;
     temp = *x;
     *x = *y;
     *y = temp;
 }
 
-int LinearSearch(struct Array *arr, int key)
-{
+int LinearSearch(struct Array *arr, int key) {
     int i;
-    for(i = 0; i < arr->length; i++)
-    {
-        if (key == arr->A[i])
-        {
-            
-            swap(&arr->A[i], &arr->A[0]);
-            return i; 
+    for (i = 0; i < arr->length; i++) {
+        if (key == arr->A[i]) {
+            swap(&arr->A[i], &arr->A[0]); 
+            return i;
         }
     }
-    return -1; 
+    return -1;
 }
 
-int main()
-{
+int Get(struct Array arr, int index) {
+    if (index >= 0 && index < arr.length) {
+        return arr.A[index];
+    }
+    return -1;
+}
+
+void Set(struct Array *arr, int index, int x) {
+    if (index >= 0 && index < arr->length) {
+        arr->A[index] = x;
+    }
+}
+
+int Max(struct Array arr) {
+    int max = arr.A[0];
+    int i;
+    for (i = 1; i < arr.length; i++) {
+        if (arr.A[i] > max) {
+            max = arr.A[i];
+        }
+    }
+    return max;
+}
+
+int Min(struct Array arr) {
+    int min = arr.A[0];
+    int i;
+    for (i = 1; i < arr.length; i++) {
+        if (arr.A[i] < min) {
+            min = arr.A[i];
+        }
+    }
+    return min;
+}
+
+int Sum(struct Array arr) {
+    int s = 0;
+    int i;
+    for (i = 0; i < arr.length; i++) {
+        s += arr.A[i];
+    }
+    return s;
+}
+
+float Avg(struct Array arr) {
+    return (float)Sum(arr) / arr.length;
+}
+
+void Reverse(struct Array *arr) {
+    int *B;
+    int i, j;
+    B = (int *)malloc(arr->length * sizeof(int));
+    for (i = arr->length - 1, j = 0; i >= 0; i--, j++) {
+        B[j] = arr->A[i];
+    }
+    for (i = 0; i < arr->length; i++) {
+        arr->A[i] = B[i];
+    }
+    free(B); 
+}
+
+void Reverse2(struct Array *arr) {
+    int i, j;
+    for (i = 0, j = arr->length - 1; i < j; i++, j--) {
+        swap(&arr->A[i], &arr->A[j]);
+    }
+}
+
+int main() {
     
     struct Array arr = {{2, 3, 4, 5, 6}, 10, 5};
 
-    printf("Initial Array:\n");
+    printf("Initial array:\n");
     Display(arr);
 
-    Append(&arr, 10);
-    printf("Array after Append(10):\n");
+    printf("Element at index 2: %d\n", Get(arr, 2));
+
+    Set(&arr, 0, 15);
+    printf("After Set(0, 15):\n");
     Display(arr);
 
-    Insert(&arr, 5, 10);
-    printf("Array after Insert(5, 10):\n");
-    Display(arr);
+    struct Array arr_max_test = {{2, 3, 14, 25, 6}, 10, 5};
+    printf("Max element in {2,3,14,25,6}: %d\n", Max(arr_max_test));
 
-    printf("Deleted element at index 4: %d\n", Delete(&arr, 4));
-    printf("Array after Delete(4):\n");
-    Display(arr);
+    printf("Min element in {2,3,14,25,6}: %d\n", Min(arr_max_test));
 
-    printf("Result of LinearSearch for 5 (original index): %d\n", LinearSearch(&arr, 5));
-    printf("Array after LinearSearch for 5 (Move-to-Head):\n");
-    Display(arr);
+    printf("Sum of elements in {2,3,14,25,6}: %d\n", Sum(arr_max_test));
 
-    printf("Result of LinearSearch for 15: %d\n", LinearSearch(&arr, 15));
-    printf("Array after LinearSearch for 15 (no change):\n");
-    Display(arr);
+    printf("Average of elements in {2,3,14,25,6}: %f\n", Avg(arr_max_test));
+
+    printf("Before Reverse2:\n");
+    Display(arr_max_test);
+    Reverse2(&arr_max_test); 
+    printf("After Reverse2:\n");
+    Display(arr_max_test);
 
     return 0;
 }

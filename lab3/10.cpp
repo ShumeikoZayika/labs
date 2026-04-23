@@ -1,32 +1,52 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 
-int main()
-{
-    int A[3][4] = {{1, 2, 3, 4}, {2, 4, 6, 8}, {1, 3, 5, 7}};
-    
-    int *B[3];
-    int **C;
-    int i, j;
+struct Array {
+    int A[20]; 
+    int size;   
+    int length; 
+};
 
-    B[0] = (int *)malloc(4 * sizeof(int));
-    B[1] = (int *)malloc(4 * sizeof(int));
-    B[2] = (int *)malloc(4 * sizeof(int));
-
-    C = (int **)malloc(3 * sizeof(int *));
-    
-    C[0] = (int *)malloc(4 * sizeof(int));
-    C[1] = (int *)malloc(4 * sizeof(int));
-    C[2] = (int *)malloc(4 * sizeof(int));
-    
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 4; j++)
-        {
-            printf("%d ", C[i][j]);
-        }
-        printf("\n");
+void Display(struct Array arr) {
+    int i;
+    printf("\nElements are\n");
+    for (i = 0; i < arr.length; i++) {
+        printf("%d ", arr.A[i]);
     }
+    printf("\n");
+}
+
+void Append(struct Array *arr, int x) {
+    if (arr->length < arr->size) {
+        arr->A[arr->length++] = x;
+    } else {
+        printf("Error: Array is full, cannot append %d\n", x);
+    }
+}
+
+int main() {
+    
+    struct Array arr = {{2,3,4,5,6}, 10, 5}; 
+
+    printf("Initial array:\n");
+    Display(arr); 
+
+    Append(&arr, 10); 
+    printf("Array after appending 10:\n");
+    Display(arr);      
+
+    Append(&arr, 20); 
+    printf("Array after appending 20:\n");
+    Display(arr);      
+
+    Append(&arr, 30); 
+    Append(&arr, 40);
+    Append(&arr, 50);
+    Append(&arr, 60);
+    Append(&arr, 70); 
+    Append(&arr, 80); 
+    printf("Array after several appends:\n");
+    Display(arr);
 
     return 0;
 }
